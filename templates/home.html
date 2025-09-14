@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - NBA Attainment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      background: #f9f9f9;
+      color: #222;
+      scroll-behavior: smooth;
+    }
+        /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 60px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #007BFF;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+      padding: 8px 15px;
+      border-radius: 8px;
+    }
+
+    .navbar ul li a:hover {
+      color: white;
+      background: #007BFF;
+    }
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+                  url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b') no-repeat center/cover;
+      color: white;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 20px 0;
+      animation: fadeInUp 1.2s ease-in-out;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background: #007BFF;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      animation: fadeInUp 1.5s ease-in-out;
+    }
+
+    .cta-btn:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+
+    /* About Section */
+    .about {
+      padding: 80px 10%;
+      background: #fff;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #007BFF;
+    }
+
+    .about p {
+      max-width: 900px;
+      margin: 10px auto;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">NBA Attainment System</div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/upload">Upload</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to NBA Attainment System</h1>
+    <p>Enhancing Academic Tracking and Performance Analysis</p>
+    <a href="/upload" class="cta-btn">🚀 Get Started</a>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <h2>About NBA Attainment System</h2>
+    <p>The NBA Attainment System provides a streamlined approach to evaluate student performance based on their marks, giving educators and institutions insights into students' academic progression.</p>
+    <p>It automates the process of assessing attainment levels (High, Medium, Low) for each student based on their average marks.</p>
+  </section>
+
+</body>
+</html>

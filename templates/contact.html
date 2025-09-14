@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - NBA Attainment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { background: #f9f9f9; color: #222; font-family: 'Poppins', sans-serif; padding-top: 70px; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 60px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px); z-index: 1000;
+    }
+    .navbar .logo { font-size: 22px; font-weight: 700; color: #007BFF; }
+    .navbar ul { list-style: none; display: flex; gap: 25px; }
+    .navbar ul li a {
+      text-decoration: none; color: #333; font-weight: 500;
+      padding: 8px 15px; border-radius: 8px; transition: 0.3s;
+    }
+    .navbar ul li a:hover { background: #007BFF; color: #fff; }
+
+    /* Hero */
+    .hero {
+      height: 45vh; display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)),
+                  url('https://images.unsplash.com/photo-1521791136064-7986c2920216') no-repeat center/cover;
+      color: white; text-align: center; padding: 0 20px; margin-bottom: 60px;
+    }
+    .hero h1 { font-size: 3rem; animation: fadeInDown 1s ease-in-out; }
+    .hero p { font-size: 1.2rem; margin-top: 10px; animation: fadeInUp 1.2s ease-in-out; }
+
+    /* Contact Section */
+    .contact-section { max-width: 1200px; margin: auto; padding: 40px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-card, .contact-form {
+      background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); animation: fadeInUp 1s ease-in-out;
+    }
+    .contact-card h2, .contact-form h2 { margin-bottom: 20px; color: #007BFF; }
+    .contact-card p { margin: 10px 0; }
+    .contact-card a { color: #007BFF; text-decoration: none; }
+    .contact-card a:hover { text-decoration: underline; }
+
+    /* Form */
+    .contact-form form { display: flex; flex-direction: column; gap: 15px; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
+      font-size: 14px; outline: none; transition: 0.3s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: #007BFF; }
+    .contact-form button {
+      padding: 12px 20px; border: none; border-radius: 30px; background: linear-gradient(45deg, #007BFF, #00d4ff);
+      color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;
+    }
+    .contact-form button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,123,255,0.6); }
+
+    /* Animations */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) {
+      .contact-section { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">NBA Attainment System</div>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('upload_file') }}">Upload</a></li>
+        {% if filename %}
+        <li><a href="{{ url_for('download_file', filename=filename) }}">Download CSV</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>Contact Us</h1>
+      <p>We’d love to hear from you! Reach out anytime.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <main class="contact-section">
+    
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Shrihari Kasar</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    /* Profile Card */
+    .contact-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-card h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      color: #007BFF;
+    }
+
+    .contact-card p {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .contact-card a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: 500;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-form h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border: 1px solid #007BFF;
+    }
+
+    .contact-form button {
+      background: #007BFF;
+      color: white;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #0056b3;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- Profile Card -->
+    <div class="contact-card">
+      <h2>Shrihari Kasar</h2>
+      <p>💻 Computer Engineering Student</p>
+      <p>⚡ Skills: Full-Stack Development, AI/ML, Data-driven Solutions</p>
+      <p>📧 <a href="mailto:shreeharikasar@gmail.com">shreeharikasar@gmail.com</a></p>
+      <p>📱 <a href="tel:+918605662671">+91-8605662671</a></p>
+      <p>🌐 <a href="https://shriharikasarportfolio.netlify.app/" target="_blank">Portfolio</a></p>
+      <p>🐙 <a href="https://github.com/ShrihariKasar" target="_blank">GitHub</a></p>
+      <p>💼 <a href="https://www.linkedin.com/in/shrihari-kasar-94b63525b/" target="_blank">LinkedIn</a></p>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2>Send a Message</h2>
+      <form method="POST" action="{{ url_for('contact') }}">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">📨 Send Message</button>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

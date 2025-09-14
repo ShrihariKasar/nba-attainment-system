@@ -1,0 +1,5 @@
+Flask
+Pandas
+OpenPyXL
+NumPy
+Matplotlib

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attainment Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+    body {
+      background: #f9f9f9;
+      color: #222;
+      scroll-behavior: smooth;
+      padding-top: 80px; /* prevent navbar overlap */
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 60px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #007BFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    .navbar ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .navbar ul li a:hover {
+      color: #007BFF;
+    }
+
+    /* Hero */
+    .hero {
+      height: 40vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      text-align: center;
+      padding: 0 20px;
+      margin: 0;  /* removed margin-top */
+      margin-bottom: 40px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      animation: fadeInUp 1.2s ease-in-out;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px;
+      text-align: center;
+    }
+
+    /* Table */
+    /* Table */
+.table-container {
+  overflow-x: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  margin-bottom: 40px;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: #000; /* ✅ default black text */
+}
+
+th {
+  background: #007BFF;
+  color: #fff; /* ✅ header stays white */
+}
+
+tr:hover {
+  background: #f1f7ff;
+}
+
+/* Attainment level cells */
+td.high {
+  background-color: #d4edda; /* light green */
+  color: #000; /* keep text black */
+  font-weight: bold;
+}
+
+td.medium {
+  background-color: #fff3cd; /* light yellow */
+  color: #000;
+  font-weight: bold;
+}
+
+td.low {
+  background-color: #f8d7da; /* light red */
+  color: #000;
+  font-weight: bold;
+}
+    /* Attainment levels */
+    .high { color: #28a745; font-weight: bold; }
+    .medium { color: #ffc107; font-weight: bold; }
+    .low { color: #dc3545; font-weight: bold; }
+
+    /* Charts */
+    .chart-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin: 30px 0;
+      animation: fadeInUp 1.2s ease-in-out;
+    }
+    canvas { max-width: 100%; }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .no-data {
+      margin-top: 50px;
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">📊 Attainment Results</div>
+    <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="{{ url_for('upload_file') }}">Upload</a></li>
+        {% if filename %}
+        <li><a href="{{ url_for('download_file', filename=filename) }}">Download Excel</a></li>
+        {% endif %}
+        {% if report_path %}
+        <li><a href="{{ url_for('download_file', filename=report_path) }}">Download Report</a></li>
+        {% endif %}
+        {% if pdf_report_path %}
+        <li><a href="{{ url_for('download_file', filename=pdf_report_path) }}">Download PDF</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>📊 Attainment Results</h1>
+      <p>Comprehensive analysis of academic performance</p>
+    </div>
+  </section>
+
+  <div class="container">
+    {% if data %}
+      <!-- Results Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Average Marks</th>
+              <th>Attainment Level</th>
+              <th>Direct Attainment (%)</th>
+              <th>Indirect Attainment (%)</th>
+              <th>Final Attainment (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in data %}
+            <tr>
+              <td>{{ row['Student'] }}</td>
+              <td>{{ row['Average Marks'] }}</td>
+              <td class="{% if row['Attainment Level'] == 'High' %}high{% elif row['Attainment Level'] == 'Medium' %}medium{% else %}low{% endif %}">
+                {{ row['Attainment Level'] }}
+              </td>
+              <td>{{ row['Direct Attainment (%)'] }}</td>
+              <td>{{ row['Indirect Attainment (%)'] }}</td>
+              <td>{{ row['Final Attainment (%)'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Charts -->
+      {% if attainment_counts %}
+      <div class="chart-container">
+        <h2>Attainment Distribution</h2>
+        <canvas id="attainmentChart"></canvas>
+      </div>
+      {% endif %}
+
+      {% if co_po_counts %}
+      <div class="chart-container">
+        <h2>CO & PO Mapping Distribution</h2>
+        <canvas id="coPoChart"></canvas>
+      </div>
+      {% endif %}
+    {% else %}
+      <p class="no-data">⚠️ No data available. Please upload a file first.</p>
+    {% endif %}
+  </div>
+
+  <!-- Chart.js -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      {% if attainment_counts %}
+      const attainmentCounts = {{ attainment_counts | tojson }};
+      const ctx1 = document.getElementById('attainmentChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(attainmentCounts),
+          datasets: [{
+            data: Object.values(attainmentCounts),
+            backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+            borderWidth: 1
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+      {% endif %}
+
+      {% if co_po_counts %}
+      const coPoCounts = {{ co_po_counts | tojson }};
+      const ctx2 = document.getElementById('coPoChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(coPoCounts),
+          datasets: [{
+            label: 'CO & PO Mapping',
+            data: Object.values(coPoCounts),
+            backgroundColor: '#007bff',
+            borderWidth: 1
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+      {% endif %}
+    });
+  </script>
+
+</body>
+</html>
