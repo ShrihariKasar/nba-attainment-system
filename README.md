@@ -1,121 +1,294 @@
 # 🎓 NBA Attainment System
 
-A **web-based NBA Attainment Calculation System** built using **Flask, MySQL, and Bootstrap**.  
-This system helps faculty, staff, and students manage and analyze **attainment levels** for courses as per **NBA (National Board of Accreditation) standards**.
+A **web-based NBA Attainment Calculation System** built with **Flask**, **SQLite/MySQL** (configurable), and modern front-end (HTML/CSS/JS).  
+This system helps educators and administrators compute, visualize and export course attainment results (CO/PO mapping) according to NBA standards.
+
+---
+
+## 🔖 Short description
+
+A lightweight tool for uploading student marks (Excel), calculating direct/indirect/final attainments, classifying attainment levels (High/Medium/Low), visualizing distributions, and exporting reports (Excel/PDF).
 
 ---
 
 ## 🚀 Features
 
-- **User Roles**
-  - **Admin:** Manage users, approve submissions, and generate reports.
-  - **Staff:** Upload attendance, study materials, notices, and attainment data.
-  - **Students:** Submit projects, view attendance, achievements, and notices.
-
-- **NBA Attainment Calculation**
-  - Direct and indirect attainment levels
-  - Final attainment percentage auto-calculated
-  - High/Medium/Low classification with color coding
-
-- **Data Management**
-  - Project submissions with admin approval
-  - Achievements & event management
-  - Study materials & announcements upload/view
-  - Attendance upload (Excel) and student view popup
-
-- **Visualization**
-  - Dynamic tables with color-coded attainment levels
-  - Scrollable popups for attendance
-  - Clean Bootstrap-based UI with responsive design
+- Upload Excel files with student marks and CO/PO mappings.
+- Automatic calculation of:
+  - Direct attainment (%)
+  - Indirect attainment (%)
+  - Final attainment (%)
+- Color-coded classification: **High / Medium / Low**
+- Data preview table + interactive charts (Chart.js)
+- Export processed report as Excel and PDF
+- Simple user-facing pages: Home / Upload / Results / Contact
+- Extensible: add role-based auth, notifications, advanced analytics
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Flask (Python)
-- **Database:** MySQL
-- **Frontend:** HTML, CSS, Bootstrap 5, JavaScript
-- **Other:** Font Awesome, jQuery
+- **Backend:** Flask (Python)  
+- **Database:** SQLite (default) or MySQL (configurable)  
+- **Frontend:** HTML, CSS (custom / Tailwind/Bootstrap optional), JavaScript, Chart.js  
+- **Reporting:** pdfkit / wkhtmltopdf (for PDF export)  
+- **Data:** pandas for Excel processing
 
 ---
 
-## 📂 Project Structure
+## 📁 Project structure (suggested)
+
+```
 
 nba-attainment-system/
-│── app.py # Main Flask app
-│── requirements.txt # Python dependencies
-│── templates/ # HTML templates
-│ ├── base.html
-│ ├── dashboard.html
-│ ├── attainment.html
-│ └── ...
-│── static/ # CSS, JS, Images
-│ ├── css/
-│ ├── js/
-│ └── uploads/
-│── database.sql # MySQL schema & tables
-│── README.md # Project Documentation
+├── app.py                      # Main Flask application
+├── config.py                   # Configuration (DB paths, secrets)
+├── requirements.txt            # Python dependencies
+├── database.sql                # Example DB schema (optional)
+├── templates/                  # Jinja2 HTML templates
+│   ├── base.html
+│   ├── home.html
+│   ├── upload.html
+│   ├── results.html
+│   ├── contact.html
+│   └── ...
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── script.js
+│   └── images/
+├── uploads/                    # Uploaded files & generated reports
+├── utils/
+│   ├── reports.py              # generate Excel / PDF helpers
+│   └── processing.py           # data processing functions
+└── README.md
 
-yaml
-Copy code
+````
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Installation (local)
+
+> **Note:** instructions assume Python 3.8+ and wkhtmltopdf installed for PDF generation (optional).
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/ShrihariKasar/nba-attainment-system.git
    cd nba-attainment-system
-Create a virtual environment & install dependencies
+````
 
-bash
-Copy code
-python -m venv venv
-source venv/bin/activate   # On Linux/Mac
-venv\Scripts\activate      # On Windows
+2. **Create & activate a virtual environment**
 
-pip install -r requirements.txt
-Setup MySQL database
+   ```bash
+   python -m venv venv
+   # Linux / macOS
+   source venv/bin/activate
+   # Windows (PowerShell)
+   .\venv\Scripts\Activate.ps1
+   # Windows (cmd)
+   venv\Scripts\activate
+   ```
 
-sql
-Copy code
-CREATE DATABASE nba_system;
-USE nba_system;
-SOURCE database.sql;
-Run the Flask server
+3. **Install dependencies**
 
-bash
-Copy code
-flask run
-Access the app in browser
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-cpp
-Copy code
-http://127.0.0.1:5000
-📊 Sample NBA Attainment Table
-Student	Avg Marks	Attainment Level	Direct (%)	Indirect (%)	Final (%)
-John D.	78	High	75	80	77.5
-Mary K.	62	Medium	60	65	62.5
-Rahul P.	45	Low	40	50	45.0
+4. **(Optional) Install wkhtmltopdf** for PDF export and set path in `config.py` or environment variable:
 
-✅ Attainment levels are color-coded (Green = High, Yellow = Medium, Red = Low).
+   * Windows: download installer and note install path (e.g. `C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe`)
+   * Linux: `sudo apt install wkhtmltopdf` (or use distro package manager)
 
-🏆 Future Scope
-Integration with Excel/PDF export for attainment reports
+5. **Initialize database (SQLite example)**
 
-Role-based email/SMS notifications
+   ```bash
+   # If using SQLite (default)
+   python -c "from utils import init_db; init_db()"
+   ```
 
-Automated CO-PO mapping and report generation
+   Or run `database.sql` in your MySQL instance if you prefer MySQL:
 
-AI-based insights for weak students’ performance
+   ```sql
+   CREATE DATABASE nba_system;
+   USE nba_system;
+   SOURCE database.sql;
+   ```
 
-🤝 Contributing
-Contributions are welcome! Please fork this repository and submit a pull request.
+6. **Start the app**
 
-📜 License
-This project is licensed under the MIT License – feel free to use and modify for educational purposes.
+   ```bash
+   # for local development
+   flask run
+   # or
+   python app.py
+   ```
 
-👨‍💻 Author
-Developed by Shrihari Kasar
-(Computer Department Student)
+7. **Open your browser**
+
+   ```
+   http://127.0.0.1:5000
+   ```
+
+---
+
+## 📥 Expected Excel input format
+
+The uploaded Excel should contain a header row with columns similar to:
+
+| Student | Average Marks | Attainment Level | Direct Attainment (%) | Indirect Attainment (%) | Final Attainment (%) | CO1 | CO2 | CO3 | CO4 | CO5 | CO6 | PO1 | PO2 | PO3 | PO4 | PO5 | PO6 |
+| ------- | ------------- | ---------------- | --------------------- | ----------------------- | -------------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+* Column names are case-insensitive but recommended to match exactly.
+* CO/PO columns can be numeric weights (0.0–1.0) or mapping flags.
+
+---
+
+## 📊 Usage / Flow
+
+1. Visit **Upload** page.
+2. Select an `.xlsx` file and press **Upload & Process**.
+3. App reads file with pandas, validates headers, computes attainment metrics.
+4. Processed table and charts are shown on the **Results** page.
+5. Download Excel/PDF report from results page links.
+
+---
+
+## 🧩 Helper utilities
+
+* `utils/processing.py` — data cleaning & calculation functions:
+
+  * normalize headers
+  * fill NA values
+  * compute direct/indirect/final attainment
+  * determine attainment level (High/Medium/Low)
+
+* `utils/reports.py` — save processed DataFrame to Excel, generate HTML for pdfkit, and create PDF.
+
+---
+
+## ✅ Example: compute attainment (pseudo)
+
+```python
+# final_attainment = (direct_attainment + indirect_attainment) / 2
+df['Final Attainment (%)'] = (df['Direct Attainment (%)'] + df['Indirect Attainment (%)']) / 2
+df['Attainment Level'] = df['Final Attainment (%)'].apply(lambda v: 'High' if v >= 60 else ('Medium' if v >= 40 else 'Low'))
+```
+
+Adjust thresholds to match your NBA criteria.
+
+---
+
+## 🔒 Environment & config
+
+Create a `.env` or `config.py` containing:
+
+```env
+FLASK_ENV=development
+FLASK_SECRET_KEY=your-secret-key
+DATABASE_URL=sqlite:///data.db   # or mysql+pymysql://user:pass@host/dbname
+WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf
+```
+
+---
+
+## 🧪 Testing / Debugging tips
+
+* Print `df.columns.tolist()` after reading Excel to confirm column names.
+* Normalize header names:
+
+  ```python
+  df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+  ```
+* Use `df.fillna('')` before converting to JSON/templates.
+
+---
+
+## 📦 requirements.txt
+
+(See file below — copy into `requirements.txt`)
+
+```
+Flask>=2.0
+pandas>=1.4
+openpyxl>=3.0
+xlrd>=2.0
+numpy>=1.22
+python-dotenv>=0.20
+pdfkit>=1.0
+Jinja2>=3.0
+Werkzeug>=2.0
+gunicorn>=20.0
+```
+
+> If you use MySQL: add `pymysql>=1.0` or `mysql-connector-python>=8.0`.
+
+---
+
+## 🧾 database.sql (example)
+
+```sql
+-- Minimal example table for SQLite / MySQL
+CREATE TABLE IF NOT EXISTS attainment_data (
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
+  student VARCHAR(255),
+  average_marks REAL,
+  attainment_level VARCHAR(50),
+  direct_attainment REAL,
+  indirect_attainment REAL,
+  final_attainment REAL,
+  co_mapping TEXT,
+  po_mapping TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+*(Adjust `AUTO_INCREMENT`/`SERIAL` as needed for your DB engine.)*
+
+---
+
+## ♻️ Contributing
+
+Contributions welcome — open an issue or create a PR. Suggested workflow:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Commit changes & push
+4. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is released under the **MIT License**. See `LICENSE` for details.
+
+---
+
+## 👨‍💻 Author
+
+**Shrihari Kasar** — [GitHub](https://github.com/ShrihariKasar) — Computer Engineering Student
+Portfolio: [https://shriharikasarportfolio.netlify.app/](https://shriharikasarportfolio.netlify.app/)
+
+---
+
+```
+
+---
+
+## requirements.txt (copy & paste)
+
+```
+
+Flask>=2.0
+pandas>=1.4
+openpyxl>=3.0
+xlrd>=2.0
+numpy>=1.22
+python-dotenv>=0.20
+pdfkit>=1.0
+Jinja2>=3.0
+Werkzeug>=2.0
+gunicorn>=20.0
+
+```
