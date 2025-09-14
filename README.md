@@ -1,6 +1,6 @@
-# 🎓 NBA Attainment System
+# NBA Attainment System
 
-A **web-based NBA Attainment Calculation System** built with **Flask**, **SQLite/MySQL** (configurable), and modern front-end (HTML/CSS/JS).  
+A **web-based NBA Attainment Calculation System** built with **Flask**, **SQLite/MySQL** (configurable), and modern front-end (HTML/CSS/JS).
 This system helps educators and administrators compute, visualize and export course attainment results (CO/PO mapping) according to NBA standards.
 
 ---
@@ -13,33 +13,33 @@ A lightweight tool for uploading student marks (Excel), calculating direct/indir
 
 ## 🚀 Features
 
-- Upload Excel files with student marks and CO/PO mappings.
-- Automatic calculation of:
-  - Direct attainment (%)
-  - Indirect attainment (%)
-  - Final attainment (%)
-- Color-coded classification: **High / Medium / Low**
-- Data preview table + interactive charts (Chart.js)
-- Export processed report as Excel and PDF
-- Simple user-facing pages: Home / Upload / Results / Contact
-- Extensible: add role-based auth, notifications, advanced analytics
+* Upload Excel files with student marks and CO/PO mappings.
+* Automatic calculation of:
+
+  * Direct attainment (%)
+  * Indirect attainment (%)
+  * Final attainment (%)
+* Color-coded classification: **High / Medium / Low**
+* Data preview table + interactive charts (Chart.js)
+* Export processed report as Excel and PDF
+* Simple user-facing pages: Home / Upload / Results / Contact
+* Extensible: add role-based auth, notifications, advanced analytics
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Flask (Python)  
-- **Database:** SQLite (default) or MySQL (configurable)  
-- **Frontend:** HTML, CSS (custom / Tailwind/Bootstrap optional), JavaScript, Chart.js  
-- **Reporting:** pdfkit / wkhtmltopdf (for PDF export)  
-- **Data:** pandas for Excel processing
+* **Backend:** Flask (Python)
+* **Database:** SQLite (default) or MySQL (configurable)
+* **Frontend:** HTML, CSS (custom / Tailwind/Bootstrap optional), JavaScript, Chart.js
+* **Reporting:** pdfkit / wkhtmltopdf (for PDF export)
+* **Data:** pandas for Excel processing
 
 ---
 
 ## 📁 Project structure (suggested)
 
 ```
-
 nba-attainment-system/
 ├── app.py                      # Main Flask application
 ├── config.py                   # Configuration (DB paths, secrets)
@@ -63,8 +63,7 @@ nba-attainment-system/
 │   ├── reports.py              # generate Excel / PDF helpers
 │   └── processing.py           # data processing functions
 └── README.md
-
-````
+```
 
 ---
 
@@ -73,10 +72,11 @@ nba-attainment-system/
 > **Note:** instructions assume Python 3.8+ and wkhtmltopdf installed for PDF generation (optional).
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/ShrihariKasar/nba-attainment-system.git
    cd nba-attainment-system
-````
+   ```
 
 2. **Create & activate a virtual environment**
 
@@ -173,6 +173,7 @@ The uploaded Excel should contain a header row with columns similar to:
 ```python
 # final_attainment = (direct_attainment + indirect_attainment) / 2
 df['Final Attainment (%)'] = (df['Direct Attainment (%)'] + df['Indirect Attainment (%)']) / 2
+# Example threshold: >=60 High, >=40 Medium, else Low
 df['Attainment Level'] = df['Final Attainment (%)'].apply(lambda v: 'High' if v >= 60 else ('Medium' if v >= 40 else 'Low'))
 ```
 
@@ -205,24 +206,24 @@ WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf
 
 ---
 
-## 📦 requirements.txt
+## 📦 requirements.txt (fixed)
 
-(See file below — copy into `requirements.txt`)
+Use this content in your `requirements.txt`. This list is cleaned up (no duplicates) and keeps compatible packages for reading/writing Excel and web deployment.
 
 ```
 Flask>=2.0
 pandas>=1.4
 openpyxl>=3.0
-xlrd>=2.0
 numpy>=1.22
 python-dotenv>=0.20
 pdfkit>=1.0
 Jinja2>=3.0
 Werkzeug>=2.0
 gunicorn>=20.0
+pymysql>=1.0  # optional, only if using MySQL
 ```
 
-> If you use MySQL: add `pymysql>=1.0` or `mysql-connector-python>=8.0`.
+> Note: `xlrd` v2.0+ removed support for `.xlsx` files. If you need to read old `.xls` files, explicitly install `xlrd==1.2.0` or convert those files to `.xlsx` and use `openpyxl`.
 
 ---
 
@@ -244,7 +245,7 @@ CREATE TABLE IF NOT EXISTS attainment_data (
 );
 ```
 
-*(Adjust `AUTO_INCREMENT`/`SERIAL` as needed for your DB engine.)*
+*(Adjust `AUTO_INCREMENT`/`SERIAL` as needed for your DB engine — e.g., use `INTEGER PRIMARY KEY AUTOINCREMENT` for SQLite.)*
 
 ---
 
@@ -272,23 +273,36 @@ Portfolio: [https://shriharikasarportfolio.netlify.app/](https://shriharikasarpo
 
 ---
 
-```
+## 🖼️ Results Section (Figures)
 
----
+Below are the screenshots of the NBA Attainment System.
 
-## requirements.txt (copy & paste)
+<p align="center">
+  <img src="static/home.png" alt="Home Page" width="600"><br>
+  <b></b> This image shows the home page of the NBA Attainment System.
+</p>
 
-```
+<p align="center">
+  <img src="static/upload.png" alt="Upload Page" width="600"><br>
+  <b></b> This image shows the file upload interface for academic data.
+</p>
 
-Flask>=2.0
-pandas>=1.4
-openpyxl>=3.0
-xlrd>=2.0
-numpy>=1.22
-python-dotenv>=0.20
-pdfkit>=1.0
-Jinja2>=3.0
-Werkzeug>=2.0
-gunicorn>=20.0
+<p align="center">
+  <img src="static/contact.png" alt="Contact Us Page" width="600"><br>
+  <b></b> This image shows the "Contact Us" page with a contact form.
+</p>
 
-```
+<p align="center">
+  <img src="static/results_table.png" alt="Results Table" width="600"><br>
+  <b></b> This image shows a table with student academic attainment results.
+</p>
+
+<p align="center">
+  <img src="static/attainment_pie.png" alt="Attainment Pie Chart" width="600"><br>
+  <b></b> This image shows a pie chart of the overall attainment distribution.
+</p>
+
+<p align="center">
+  <img src="static/co_po_bar.png" alt="CO-PO Mapping Bar Graph" width="600"><br>
+  <b></b> This image shows a bar graph of CO and PO mapping distribution.
+</p>
